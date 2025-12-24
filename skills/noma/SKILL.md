@@ -9,6 +9,15 @@ description: Maintain nodes in internal Kubernetes inference clusters by authori
 
 Create NodeMaintenance CRs for internal inference clusters using `k8s-noma init`, select nodes safely, and apply manifests with explicit cluster context after user approval.
 
+## Install k8s-noma
+
+Run these once to install the CLI:
+
+```bash
+go env -w GOPRIVATE=github.com/alberttogether/*
+go install github.com/alberttogether/k8s-node-maintenance/cmd/k8s-noma@latest
+```
+
 ## Workflow
 
 1. Confirm the request details: node name(s) or selector, desired action(s), and whether nodes should return to service or remain cordoned/removed.
