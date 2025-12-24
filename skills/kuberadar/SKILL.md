@@ -9,6 +9,15 @@ description: Query and lightly update internal Kubernetes clusters via the KubeR
 
 Use the `kuberadar` CLI to query or perform limited updates to internal Kubernetes clusters. Prefer read-only commands unless the user explicitly confirms `--allow-writes`.
 
+## Installation
+
+Install the CLI with Go:
+
+```bash
+go env -w GOPRIVATE=github.com/alberttogether/*
+go install github.com/alberttogether/kuberadar-cli/cmd/kuberadar@latest
+```
+
 ## Core workflow
 
 - Use `kuberadar` for listing clusters, querying resources, streaming logs, or finding GPU availability.
@@ -19,6 +28,7 @@ Use the `kuberadar` CLI to query or perform limited updates to internal Kubernet
 ## Read operations (common)
 
 - List clusters: `kuberadar clusters list`
+- Note: `kuberadar clusters list` does not support `--jmespath`.
 - Get resource metadata: `kuberadar get <resource> [name]`
 - Describe resources with events: `kuberadar describe <resource> [name]`
 - Fetch raw objects: `kuberadar raw <resource> [name]`
