@@ -35,6 +35,10 @@ go install github.com/alberttogether/kuberadar-cli/cmd/kuberadar@latest
 - Stream pod logs: `kuberadar logs <pod> <container> -n <ns> -c <cluster> -f`
 - Find available GPUs: `kuberadar find gpu [filters]`
 
+## Client-side operations
+- Find a cluster to schedule a model onto given the GPU SKU and number of GPUs needed. `kuberadar schedule --gpu_sku <GPUSKU> --gpu_count<GPUCOUNT> --cluster_count <cluster count>`
+  This will return cluster_count clusters with sufficient available resources.
+
 ## Write operations (explicit confirmation required)
 
 All write operations require `--allow-writes`. Ask the user for explicit confirmation immediately before any command that includes `--allow-writes`.
@@ -60,5 +64,5 @@ kuberadar find gpu --sku NVIDIA-H100-80GB-HBM3 --count 4 -c prod-a -c prod-b
 Use JMESPath to return pod names and phases:
 
 ```bash
-kuberadar get pods -n kube-system -c majesticmoose --jmespath 'data[].{name: metadata.name, phase: value.phase}'
+kuberadar get pods -n kube-system -c majesticmoose --jmespath 'data[?value.phase=='Running'].{name: metadata.name, phase: value.phase}'
 ```

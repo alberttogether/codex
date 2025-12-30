@@ -46,13 +46,21 @@ Citadel - TODO
 
 
 ## Clusters
- TODO - AWS
 
-All code runs on Kubernetes clusters. You can use the in-house kuberadar service (repo: kuberadar) to get the name of all clusters and retrieve aggregate lists of Kubernetes resources. Use you kuberadar skill for this.
+All code runs on Kubernetes clusters. The primary Together account is 598726163780 and most resources are un us-west-2. Control plane clusters live in AWS EKS clusters:
+For production (use AWS prod account)
+website-cluster:  The original control-plane cluster. Runs most of the control plane.
+whq_prod_usw2: A newer cluster that runs ArgoCD and a few other services.
+
+For QA (use AWS QA account)
+together-qa_qa_usw2: QA environment control plane
+
+
+You can use the in-house kuberadar service (repo: kuberadar) to get the name of all clusters and retrieve aggregate lists of Kubernetes resources. Use you kuberadar skill for this.
 
 There are two types of clusters. Older clusters use the k3s distribution. Newer clusters use an in-house provision system called tcloud that runs inference clusters (aka tenant clusters) inside VMs that are provisioned using kubevirt on baremetal substrate clusters. You do not access substrate clusters directly. You do not SSH into nodes. When asked to to do any node maintenance use your noma skill, which uses a Kubernetes operator for safe maintenance operations.
 
-Services are deployed into the cluster using ArgoCD. The preference is to use an application set with a cluster generator, but some services list clusters explicitly. Application sets are in the argo-apps directory in the infra repository.
+Services are deployed into the cluster using ArgoCD. The preference is to use an application set with a cluster generator, but some services list clusters explicitly. Application sets are in the argo-apps directory in the infra repository. When deploying in-house services, prefer having a Helm chart in the service repo and refer to it from the application set. For 3rd party services, prefer official Helm charts from the service maintainer. If none are available, bitnami helm charts are acceptable.
 
 
 
