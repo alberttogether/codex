@@ -1422,12 +1422,14 @@ impl Session {
         message: impl Into<String>,
         codex_error: CodexErr,
     ) {
+        let additional_details = codex_error.to_string();
         let codex_error_info = CodexErrorInfo::ResponseStreamDisconnected {
             http_status_code: codex_error.http_status_code_value(),
         };
         let event = EventMsg::StreamError(StreamErrorEvent {
             message: message.into(),
             codex_error_info: Some(codex_error_info),
+            additional_details: Some(additional_details),
         });
         self.send_event(turn_context, event).await;
     }
@@ -2514,6 +2516,11 @@ async fn try_run_turn(
         model: turn_context.client.get_model(),
         effort: turn_context.client.get_reasoning_effort(),
         summary: turn_context.client.get_reasoning_summary(),
+        base_instructions: turn_context.base_instructions.clone(),
+        user_instructions: turn_context.user_instructions.clone(),
+        developer_instructions: turn_context.developer_instructions.clone(),
+        final_output_json_schema: turn_context.final_output_json_schema.clone(),
+        truncation_policy: Some(turn_context.truncation_policy.into()),
     });
 
     sess.persist_rollout_items(&[rollout_item]).await;
