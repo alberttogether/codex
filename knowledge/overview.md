@@ -4,6 +4,7 @@ Together.ai is a leading provider of GPU cluster and inference as a service, pri
 
 ## Tech Stack
 All code lives in github under https://github.com/togethercomputer/ unless othwerwise specified. All repo names refer to this base URL. repos are checked out under ${HOME}/git.
+Production Helm charts live in the production-charts repo.
 
 The preferred coding language for all new services is golang. Frontend and some older backend components are written in TypeScript.
 
@@ -44,6 +45,10 @@ Hadron (repo: hadron) is an in-house workload orchestrator used for testing. It'
 
 Citadel - TODO
 
+## Other services
+
+Poe bot (repo: poe-bot) hosts Together's Poe server bot on poe.com. The service deploys to the website-cluster EKS context; see the repo README for release steps.
+
 
 ## Clusters
 
@@ -61,6 +66,4 @@ You can use the in-house kuberadar service (repo: kuberadar) to get the name of 
 There are two types of clusters. Older clusters use the k3s distribution. Newer clusters use an in-house provision system called tcloud that runs inference clusters (aka tenant clusters) inside VMs that are provisioned using kubevirt on baremetal substrate clusters. You do not access substrate clusters directly. You do not SSH into nodes. When asked to to do any node maintenance use your noma skill, which uses a Kubernetes operator for safe maintenance operations.
 
 Services are deployed into the cluster using ArgoCD. The preference is to use an application set with a cluster generator, but some services list clusters explicitly. Application sets are in the argo-apps directory in the infra repository. When deploying in-house services, prefer having a Helm chart in the service repo and refer to it from the application set. For 3rd party services, prefer official Helm charts from the service maintainer. If none are available, bitnami helm charts are acceptable.
-
-
 
